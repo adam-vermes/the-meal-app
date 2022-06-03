@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "playwright test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "DISABLE_ESLINT_PLUGIN=true react-scripts build"
+    "heroku-postbuild": "npm run build"
   },
   "browserslist": {
     "production": [
