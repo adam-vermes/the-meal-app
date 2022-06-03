@@ -139,7 +139,8 @@ export default function CollapsibleTable({ rowData }: TableProps) {
               </TableCell>
 
               <TableCell align="center">
-                <Typography variant="h6" gutterBottom component="div">
+                <Typography variant="h6" gutterBottom component="div"
+                 id="mealName">
                   Name
                 </Typography>
               </TableCell>

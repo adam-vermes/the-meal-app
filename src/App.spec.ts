@@ -25,18 +25,18 @@ test.describe('Testing meal app', () => {
   });
 
   test('Add recipe', async ({ page }) => {
-    await page.click('text=ADD RECIPE');
-    await expect(page.locator('text=Add Your Recipe').first()).toBeVisible();
+    await page.click('text=ADD MEAL');
+    await expect(page.locator('text=Add New Meal').first()).toBeVisible();
 
-    await page.fill('#strMeal', 'Rantott Sajt');
+    await page.fill('#strMeal', 'Beef');
     await page.fill('#strInstructions', 'Olajban susd ki a sajtot.');
     await page.fill('#strCategory', 'Vega');
     await page.fill('#strIngredient1', 'Sajt');
     await page.fill('#strIngredient2', 'Olaj');
     await page.fill('#strIngredient3', 'Liszt');
     await page.fill('#strArea', 'Magyar');
-    await page.click('text=SUBMIT');
-    await expect(page.locator('text=Rantott Sajt').first()).toBeVisible();
+    await page.locator('#submit').click();
+    await expect(page.locator('text=Beef')).toBeVisible();
   });
 
   test('Search by ingredient', async ({ page }) => {
