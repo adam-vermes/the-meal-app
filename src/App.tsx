@@ -123,7 +123,7 @@ function App() {
 
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     const textValue = event.target.value;
-    const re = /^[A-Za-z]+$/;
+    const re = /^(?!\s)[a-zA-Z_\s-]+$/;
     if (textValue === '' || re.test(textValue)) {
       setSearchPhrase(textValue);
     }
