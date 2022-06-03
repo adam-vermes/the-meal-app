@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 
 interface FormProps {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   handleAdd: (recipeData: any) => void
 }
 
@@ -36,7 +37,10 @@ export default function Form(
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onSubmit = (recipeData: any) => {
+  const onSubmit = (
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    recipeData: any,
+  ) => {
     handleAdd(recipeData);
   };
 
