@@ -80,9 +80,6 @@ function Row({ row }: RowProps) {
               {strInstructions && strCategory && strIngredient1
                 ? (
                   <>
-                    <Typography variant="h6" gutterBottom component="div">
-                      Recipe Details
-                    </Typography>
                     <Table size="small" aria-label="purchases">
                       <TableHead>
                         <TableRow>

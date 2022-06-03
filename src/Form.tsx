@@ -63,7 +63,7 @@ export default function Form(
 
   return (
     <>
-      <Button onClick={handleOpen} variant="outlined">Add Recipe</Button>
+      <Button onClick={handleOpen} variant="outlined">Add Meal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -79,7 +79,7 @@ export default function Form(
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid item textAlign="center">
                 <Typography variant="h6" gutterBottom component="div">
-                  Add Your Recipe
+                  Add New Meal
                 </Typography>
               </Grid>
               <Grid item sx={{ p: 1 }}>
