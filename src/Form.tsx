@@ -61,6 +61,10 @@ export default function Form(
     }
   }, [isSubmitSuccessful, reset]);
 
+  const validationConfig = { required: true,
+    pattern: {value: /^(?!\s)[a-zA-Z_\s-]+$/, 
+    message: 'No numbers or whitespace'} }
+
   return (
     <>
       <Button onClick={handleOpen} variant="outlined">Add Meal</Button>
@@ -89,10 +93,10 @@ export default function Form(
                   type="text"
                   label="Meal Name"
                   id="strMeal"
-                  {...register('strMeal', { required: true })}
+                  {...register('strMeal', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strMeal && <span>Name is required</span>}
+                  {errors.strMeal?.message}
                 </FormHelperText>
               </Grid>
 
@@ -103,11 +107,10 @@ export default function Form(
                   type="text"
                   label="Description"
                   id="strInstructions"
-                  {...register('strInstructions', { required: true })}
+                  {...register('strInstructions', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strInstructions
-                && <span>Instructions are required</span>}
+                {errors.strInstructions?.message}
                 </FormHelperText>
               </Grid>
 
@@ -118,10 +121,11 @@ export default function Form(
                   type="text"
                   label="Category"
                   id="strCategory"
-                  {...register('strCategory', { required: true })}
+                  {...register('strCategory', validationConfig)}
+
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strCategory && <span>Category is required</span>}
+                {errors.strCategory?.message}
                 </FormHelperText>
               </Grid>
 
@@ -132,10 +136,10 @@ export default function Form(
                   type="text"
                   label="Ingredient"
                   id="strIngredient1"
-                  {...register('strIngredient1', { required: true })}
+                  {...register('strIngredient1', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strIngredient1 && <span>Ingredient is required</span>}
+                {errors.strIngredient1?.message}
                 </FormHelperText>
               </Grid>
 
@@ -146,10 +150,10 @@ export default function Form(
                   type="text"
                   label="Ingredient 2"
                   id="strIngredient2"
-                  {...register('strIngredient2', { required: true })}
+                  {...register('strIngredient2', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strIngredient3 && <span>Ingredient is required</span>}
+                {errors.strIngredient2?.message}
                 </FormHelperText>
               </Grid>
 
@@ -160,10 +164,10 @@ export default function Form(
                   type="text"
                   label="Ingredient 3"
                   id="strIngredient3"
-                  {...register('strIngredient3', { required: true })}
+                  {...register('strIngredient3', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strIngredient2 && <span>Ingredient is required</span>}
+                {errors.strIngredient3?.message}
                 </FormHelperText>
               </Grid>
 
@@ -174,10 +178,10 @@ export default function Form(
                   type="text"
                   label="Area"
                   id="strArea"
-                  {...register('strArea', { required: true })}
+                  {...register('strArea', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strArea && <span>Area is required</span>}
+                {errors.strArea?.message}
                 </FormHelperText>
 
                 <Grid item sx={{ p: 1 }}>
