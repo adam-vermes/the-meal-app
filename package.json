@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.1",
+    "@playwright/test": "^1.22.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -19,16 +20,17 @@
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.3",
     "react-scripts": "5.0.1",
+    "serve": "^13.0.2",
     "typescript": "^4.6.4",
-    "web-vitals": "^2.1.4",
-    "@playwright/test": "^1.22.2"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "playwright test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "dev": "react-scripts start"
   },
   "browserslist": {
     "production": [
