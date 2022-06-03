@@ -18,11 +18,12 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 'auto',
-  height: 'auto',
+  maxHeight: '100%',
   bgcolor: 'background.paper',
   border: '1px solid #F06543',
   boxShadow: 24,
-  p: 4,
+  p: 1,
+  overflow: 'scroll'
 };
 
 export default function Form(
