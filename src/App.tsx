@@ -129,13 +129,23 @@ function App() {
     }
   };
 
-  const handleSearchOnSubmit = () => {
-    if (searchPhrase) {
-      getMealByName(searchPhrase).then((mealData): void => {
-        setMeal(mealData.meals);
-        setSearchPhrase('');
-      });
+  const handleGetRequest = (searchPhrase: string) => {
+  if (searchPhrase) {
+    getMealByName(searchPhrase).then((mealData): void => {
+      setMeal(mealData.meals);
+      setSearchPhrase('');
+    });
+  }
+  }
+
+  const handleOnKeyUp = (event: { key: string; keyCode: number; }) => {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      handleGetRequest(searchPhrase);
     }
+  }
+
+  const handleSearchOnSubmit = () => {
+    handleGetRequest(searchPhrase);
   };
 
   const handleSearchByCategory = (event: MouseEvent) => {
@@ -206,6 +216,7 @@ function App() {
                 size="small"
                 value={searchPhrase}
                 id="mealInput"
+                onKeyUp={handleOnKeyUp}
               />
               <IconButton
                 type="submit"
