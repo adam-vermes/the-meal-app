@@ -96,7 +96,7 @@ export default function Form(
                   {...register('strMeal', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                  {errors.strMeal?.message}
+                  {errors?.strMeal?.message?.toString()}
                 </FormHelperText>
               </Grid>
 
@@ -110,7 +110,7 @@ export default function Form(
                   {...register('strInstructions', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                {errors.strInstructions?.message}
+                {errors.strInstructions?.message?.toString()}
                 </FormHelperText>
               </Grid>
 
@@ -125,7 +125,7 @@ export default function Form(
 
                 />
                 <FormHelperText variant="outlined">
-                {errors.strCategory?.message}
+                {errors.strCategory?.message?.toString()}
                 </FormHelperText>
               </Grid>
 
@@ -139,7 +139,7 @@ export default function Form(
                   {...register('strIngredient1', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                {errors.strIngredient1?.message}
+                {errors.strIngredient1?.message?.toString()}
                 </FormHelperText>
               </Grid>
 
@@ -153,7 +153,7 @@ export default function Form(
                   {...register('strIngredient2', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                {errors.strIngredient2?.message}
+                {errors.strIngredient2?.message?.toString()}
                 </FormHelperText>
               </Grid>
 
@@ -167,7 +167,7 @@ export default function Form(
                   {...register('strIngredient3', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                {errors.strIngredient3?.message}
+                {errors.strIngredient3?.message?.toString()}
                 </FormHelperText>
               </Grid>
 
@@ -181,7 +181,7 @@ export default function Form(
                   {...register('strArea', validationConfig)}
                 />
                 <FormHelperText variant="outlined">
-                {errors.strArea?.message}
+                {errors.strArea?.message?.toString()}
                 </FormHelperText>
 
                 <Grid item sx={{ p: 1 }}>
