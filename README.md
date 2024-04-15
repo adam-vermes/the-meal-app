@@ -1,10 +1,14 @@
+## Project is available here
+
+https://the-meal-app-xx35.onrender.com
+
+## API reference
+
+https://www.themealdb.com/api.php
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Project Is Available On Heroku
-
-https://the-meal-app.herokuapp.com/
 
 ## Available Scripts
 

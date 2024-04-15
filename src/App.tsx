@@ -39,13 +39,13 @@ function App() {
         const [category, ingredient] = 
           await Promise.all([getCategories(), getIngredients()]);
         setCategories(category.categories);
-        setIngredients(ingredient.meals)
+        setIngredients(ingredient.meals);
 
       } catch (error) {
         alert('An error occurred while fetching data.');
       }
-    }
-    fetchMealData()
+    };
+    fetchMealData();
   }, []);
 
 
@@ -53,7 +53,7 @@ function App() {
     ingredients.map((ingredient) => ({
       label: ingredient.strIngredient,
       id: ingredient.idIngredient,
-    })), [ingredients])
+    })), [ingredients]);
 
 
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -65,18 +65,25 @@ function App() {
   };
 
   const handleGetRequest = async(searchPhrase: string) => {
-  if (!searchPhrase) return
+  if (!searchPhrase) return;
 
-  const mealByName = await getMealByName(searchPhrase)
-  setMeals(mealByName.meals)
-  setSearchPhrase('');
+  try {
+
+    const mealByName = await getMealByName(searchPhrase);
+    setMeals(mealByName.meals);
+    setSearchPhrase('');
+
+  } catch (error) {
+    alert('An error occurred while fetching data.');
   }
+
+  };
 
   const handleOnKeyUp = (event: { key: string; keyCode: number; }) => {
     if (event.key === 'Enter' || event.keyCode === 13) {
       handleGetRequest(searchPhrase);
     }
-  }
+  };
 
   const handleSearchOnSubmit = () => {
     handleGetRequest(searchPhrase);
@@ -84,17 +91,17 @@ function App() {
 
   const handleSearchByCategory = async(event: MouseEvent) => {
     const selectedCategoryValue = (event.target as HTMLImageElement).alt;
-    const mealByCategory = await getMealByCategory(selectedCategoryValue)
+    const mealByCategory = await getMealByCategory(selectedCategoryValue);
     setMeals(mealByCategory.meals);
   };
 
   const handleSearchByIngredient = async(value:
     { label: string; id: string; } | null) => {
-    if (!value) return
+    if (!value) return;
       
-     const mealbyIngredient = await getMealByMainIngredient(value.label)
-     setMeals(mealbyIngredient.meals)
-     }
+     const mealbyIngredient = await getMealByMainIngredient(value.label);
+     setMeals(mealbyIngredient.meals);
+     };
 
 
   const addRecipeToTable = (formData: Meal) => {

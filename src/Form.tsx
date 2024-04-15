@@ -62,7 +62,7 @@ export default function Form(
 
   const validationConfig = { required: true,
     pattern: {value: /^(?!\s)[a-zA-Z_\s-]+$/, 
-    message: 'No number or whitespace'} }
+    message: 'No number or whitespace'} };
 
   return (
     <>

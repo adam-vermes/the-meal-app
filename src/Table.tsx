@@ -26,7 +26,7 @@ export interface RowProps {
 
 function Row({ meal }: RowProps) {
 
-  const [mealDetails, setMealDetails] = useState<Meal>(meal)
+  const [mealDetails, setMealDetails] = useState<Meal>(meal);
   const {
     strMeal,
     strCategory,
@@ -40,30 +40,30 @@ function Row({ meal }: RowProps) {
 
   const [open, setOpen] = useState(false);
 
-  const isDetailsTableShown = strInstructions && strCategory && strIngredient1
+  const isDetailsTableShown = strInstructions && strCategory && strIngredient1;
 
   const handleGetDetails = useMemo(() => 
     async(id: string) => {
-      if (!id) return
+      if (!id) return;
 
       try {
-        const mealDetails = await getMealById(id)
-        const mergedMeal = {...meal, ...mealDetails.meals[0]}
+        const mealDetails = await getMealById(id);
+        const mergedMeal = {...meal, ...mealDetails.meals[0]};
 
-        setMealDetails(mergedMeal)
+        setMealDetails(mergedMeal);
       } catch (error) {
           console.log('An error occurred while fetching data.');
         }
       }, 
     [meal]
-  )
+  );
 
   return (
     <>
       <TableRow key={idMeal} sx={{ '& > *': { borderBottom: 'unset' }}}
         onClick={() => {
-          handleGetDetails(meal.idMeal)
-        setOpen(!open)
+          handleGetDetails(meal.idMeal);
+        setOpen(!open);
       }}>
         <TableCell width="10%">
           <IconButton
