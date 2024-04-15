@@ -1,4 +1,4 @@
-import { Ingredient } from '../App';
+import { Ingredient } from "./types";
 
 export default async function getIngredients(): Promise<{meals: Ingredient[]}> {
   const response = await fetch(

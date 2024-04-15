@@ -12,18 +12,21 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { SetStateAction, useEffect, useState } from 'react';
-import { Meal } from './App';
+import { SetStateAction, useEffect, useMemo, useState } from 'react';
+import { Meal } from './api/types';
+import getMealById from './api/getMealDetailsById';
 
-interface TableProps {
+export interface TableProps {
   rowData: Meal[]
 }
 
-interface RowProps {
-  row: Meal
+export interface RowProps {
+  meal: Meal
 }
 
-function Row({ row }: RowProps) {
+function Row({ meal }: RowProps) {
+
+  const [mealDetails, setMealDetails] = useState<Meal>(meal)
   const {
     strMeal,
     strCategory,
@@ -33,18 +36,39 @@ function Row({ row }: RowProps) {
     strIngredient1,
     strIngredient2,
     strIngredient3,
-  } = row;
+  } = mealDetails;
 
   const [open, setOpen] = useState(false);
 
+  const isDetailsTableShown = strInstructions && strCategory && strIngredient1
+
+  const handleGetDetails = useMemo(() => 
+    async(id: string) => {
+      if (!id) return
+
+      try {
+        const mealDetails = await getMealById(id)
+        const mergedMeal = {...meal, ...mealDetails.meals[0]}
+
+        setMealDetails(mergedMeal)
+      } catch (error) {
+          console.log('An error occurred while fetching data.');
+        }
+      }, 
+    [meal]
+  )
+
   return (
     <>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow key={idMeal} sx={{ '& > *': { borderBottom: 'unset' }}}
+        onClick={() => {
+          handleGetDetails(meal.idMeal)
+        setOpen(!open)
+      }}>
         <TableCell width="10%">
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
@@ -77,8 +101,8 @@ function Row({ row }: RowProps) {
         >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box>
-              {strInstructions && strCategory && strIngredient1
-                ? (
+              {isDetailsTableShown
+                && (
                   <>
                     <Table size="small" aria-label="purchases">
                       <TableHead>
@@ -92,16 +116,16 @@ function Row({ row }: RowProps) {
                         <TableRow key={idMeal}>
                           <TableCell>{strInstructions}</TableCell>
                           <TableCell>
-                            {`${strIngredient1}, 
-                              ${strIngredient2}, 
-                              ${strIngredient3}`}
+                            {strIngredient1}, 
+                            {strIngredient2}, 
+                            {strIngredient3}
                           </TableCell>
                           <TableCell>{strCategory}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>
                   </>
-                ) : 'No data available for categories / ingredients.' }
+                )}
             </Box>
           </Collapse>
         </TableCell>
@@ -119,7 +143,7 @@ export default function CollapsibleTable({ rowData }: TableProps) {
   }, [rowData.length]);
 
   const handleChangePage = (
-    event: unknown,
+    _: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     newPage: SetStateAction<number>,
   ): void => {
     setPage(newPage);
@@ -150,10 +174,10 @@ export default function CollapsibleTable({ rowData }: TableProps) {
             {rowData?.slice(
               page * rowsPerPage,
               page * rowsPerPage + rowsPerPage,
-            ).map((row: Meal) => (
+            ).map((meal: Meal) => (
               <Row
-                key={row.idMeal}
-                row={row}
+                key={meal.idMeal}
+                meal={meal}
               />
             ))}
           </TableBody>
@@ -163,7 +187,7 @@ export default function CollapsibleTable({ rowData }: TableProps) {
           component="div"
           count={rowData?.length || 0}
           rowsPerPage={rowsPerPage}
-          page={rowData?.length <= 0 ? 0 : page}
+          page={rowData?.length === 0 ? 0 : page}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[10]}
         />

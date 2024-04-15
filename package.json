@@ -30,7 +30,8 @@
     "test": "playwright test",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build",
-    "dev": "react-scripts start"
+    "dev": "react-scripts start",
+    "lint-fix": "node_modules/.bin/eslint . --fix"
   },
   "browserslist": {
     "production": [

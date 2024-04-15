@@ -1,4 +1,4 @@
-import { Meal } from '../App';
+import { Meal } from "./types";
 
 export default async function getMealByCategory(
   categoryName: string,

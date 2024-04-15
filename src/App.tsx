@@ -1,5 +1,5 @@
 import {
-  ChangeEvent, MouseEvent, useEffect, useState,
+  ChangeEvent, MouseEvent, useEffect, useMemo, useState,
 } from 'react';
 import Grid from '@mui/material/Grid';
 import {
@@ -23,119 +23,53 @@ import getMealByMainIngredient from './api/getMealByMainIngredient';
 import getMealByName from './api/getMealByName';
 import Form from './Form';
 import Table from './Table';
-
-export interface Meal {
-dateModified: null
-idMeal: string
-strArea: string
-strCategory: string
-strCreativeCommonsConfirmed: null
-strDrinkAlternate: null
-strImageSource: null
-strIngredient1: string
-strIngredient2: string
-strIngredient3: string
-strIngredient4: string
-strIngredient5: string
-strIngredient6: string
-strIngredient7: string
-strIngredient8: string
-strIngredient9: string
-strIngredient10: string
-strIngredient11: string
-strIngredient12: string
-strIngredient13: string
-strIngredient14: string
-strIngredient15: string
-strIngredient16: string
-strIngredient17: string
-strIngredient18: string
-strIngredient19: string
-strIngredient20: string
-strInstructions: string
-strMeal: string
-strMealThumb: string
-strMeasure1: string
-strMeasure2: string
-strMeasure3: string
-strMeasure4: string
-strMeasure5: string
-strMeasure6: string
-strMeasure7: string
-strMeasure8: string
-strMeasure9: string
-strMeasure10: string
-strMeasure11: string
-strMeasure12: string
-strMeasure13: string
-strMeasure14: string
-strMeasure15: string
-strMeasure16: string
-strMeasure17: string
-strMeasure18: string
-strMeasure19: string
-strMeasure20: string
-strSource: string
-strTags: string
-strYoutube: string
-}
-
-export interface Category {
-  idCategory: string
-  strCategory: string
-  strCategoryDescription: string
-  strCategoryThumb: string
-}
-
-export interface Ingredient {
-  idIngredient: string
-  strDescription: string
-  strIngredient: string
-  strType: string
-}
+import { Meal, Category, Ingredient } from './api/types';
 
 const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
 function App() {
-  const [meals, setMeal] = useState<Meal[]>([]);
-  const [, setCategoryFilterValue] = useState<string>('');
+  const [meals, setMeals] = useState<Meal[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchPhrase, setSearchPhrase] = useState<string>('');
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [mappedIngredients,
-    setMappedIngredients] = useState<{label: string, id: string}[]>([]);
 
   useEffect(() => {
-    getCategories().then((category) => {
-      setCategories(category.categories);
-    });
-    getIngredients().then((ingredient) => {
-      setIngredients(ingredient.meals);
-    });
+    const fetchMealData = async() => {
+      try {
+        const [category, ingredient] = 
+          await Promise.all([getCategories(), getIngredients()]);
+        setCategories(category.categories);
+        setIngredients(ingredient.meals)
+
+      } catch (error) {
+        alert('An error occurred while fetching data.');
+      }
+    }
+    fetchMealData()
   }, []);
 
-  useEffect(() => {
-    setMappedIngredients(ingredients.map((ingredient) => ({
+
+  const mappedIngredients = useMemo(() => 
+    ingredients.map((ingredient) => ({
       label: ingredient.strIngredient,
       id: ingredient.idIngredient,
-    })));
-  }, [ingredients]);
+    })), [ingredients])
+
 
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     const textValue = event.target.value;
-    const re = /^(?!\s)[a-zA-Z_\s-]+$/;
-    if (textValue === '' || re.test(textValue)) {
+    const regex = /^(?!\s)[a-zA-Z_\s-]+$/;
+    if (textValue === '' || regex.test(textValue)) {
       setSearchPhrase(textValue);
     }
   };
 
-  const handleGetRequest = (searchPhrase: string) => {
-  if (searchPhrase) {
-    getMealByName(searchPhrase).then((mealData): void => {
-      setMeal(mealData.meals);
-      setSearchPhrase('');
-    });
-  }
+  const handleGetRequest = async(searchPhrase: string) => {
+  if (!searchPhrase) return
+
+  const mealByName = await getMealByName(searchPhrase)
+  setMeals(mealByName.meals)
+  setSearchPhrase('');
   }
 
   const handleOnKeyUp = (event: { key: string; keyCode: number; }) => {
@@ -148,26 +82,24 @@ function App() {
     handleGetRequest(searchPhrase);
   };
 
-  const handleSearchByCategory = (event: MouseEvent) => {
+  const handleSearchByCategory = async(event: MouseEvent) => {
     const selectedCategoryValue = (event.target as HTMLImageElement).alt;
-    setCategoryFilterValue(selectedCategoryValue);
-    getMealByCategory(selectedCategoryValue).then((categoryMeal) => {
-      setMeal(categoryMeal.meals);
-    });
+    const mealByCategory = await getMealByCategory(selectedCategoryValue)
+    setMeals(mealByCategory.meals);
   };
 
-  const handleSearchByIngredient = (value:
+  const handleSearchByIngredient = async(value:
     { label: string; id: string; } | null) => {
-    if (value) {
-      getMealByMainIngredient(value.label).then((ingredientMeal) => {
-        setMeal(ingredientMeal.meals);
-      });
-    }
-  };
+    if (!value) return
+      
+     const mealbyIngredient = await getMealByMainIngredient(value.label)
+     setMeals(mealbyIngredient.meals)
+     }
+
 
   const addRecipeToTable = (formData: Meal) => {
     const idMeal = getRandomInt(10000).toString();
-    setMeal((prevMealData) => [...prevMealData, { ...formData, idMeal }]);
+    setMeals((prevMealData) => [...prevMealData, { ...formData, idMeal }]);
   };
 
   return (
@@ -181,11 +113,11 @@ function App() {
         >
           <Grid item xs={12}>
             <Typography variant="h6" component="div" align="center">
-              TheMealApp
+              <span>TheMealApp</span>
             </Typography>
 
             <Typography variant="subtitle1" component="div" align="center">
-              Search for the best meals
+              <span>Search for the best meals</span>
             </Typography>
           </Grid>
 
@@ -237,12 +169,11 @@ function App() {
               {mappedIngredients.length > 0
                 && (
                 <Autocomplete
-                  disablePortal
                   id="combo-box-demo"
                   options={mappedIngredients}
                   size="small"
                   sx={{ width: 300 }}
-                  onChange={(e, v) => handleSearchByIngredient(v)}
+                  onChange={(_, value) => handleSearchByIngredient(value)}
                   isOptionEqualToValue={(
                     option,
                     value,

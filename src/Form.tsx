@@ -6,10 +6,10 @@ import Modal from '@mui/material/Modal';
 import {
   FormHelperText, Grid, TextField, Typography,
 } from '@mui/material';
+import { Meal } from './api/types';
 
 interface FormProps {
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  handleAdd: (recipeData: any) => void
+  handleAdd: (recipeData: Meal) => void
 }
 
 const style = {
@@ -32,15 +32,14 @@ export default function Form(
   const {
     register, handleSubmit, reset,
     formState: { errors, isSubmitSuccessful },
-  } = useForm();
+  } = useForm<Meal>();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const onSubmit = (
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    recipeData: any,
+    recipeData: Meal,
   ) => {
     handleAdd(recipeData);
   };
@@ -63,7 +62,7 @@ export default function Form(
 
   const validationConfig = { required: true,
     pattern: {value: /^(?!\s)[a-zA-Z_\s-]+$/, 
-    message: 'No numbers or whitespace'} }
+    message: 'No number or whitespace'} }
 
   return (
     <>
@@ -83,7 +82,7 @@ export default function Form(
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid item textAlign="center">
                 <Typography variant="h6" gutterBottom component="div">
-                  Add New Meal
+                  <span>Add New Meal</span>
                 </Typography>
               </Grid>
               <Grid item sx={{ p: 1 }}>

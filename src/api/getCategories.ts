@@ -1,4 +1,4 @@
-import { Category } from '../App';
+import { Category } from "./types";
 
 export default async function getCategories():
 Promise<{categories: Category[]}> {
